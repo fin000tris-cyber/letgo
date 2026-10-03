@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>敢不要，才敢要</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: one narrow column, a talk invitation read at night; navy ground with gold glow top-right (人類升頻療癒系統 house style). Single deliberate dark look. */
+:root {
+  --navy: #0B131F;
+  --surface: rgba(22, 36, 58, .82);
+  --gold: #E7C680;
+  --gold-dim: rgba(231, 198, 128, .28);
+  --cream: #EFE7D6;
+  --mist: #96A3B6;
+  --serif: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  --sans: "Noto Sans TC", "PingFang TC", "Heiti TC", "Microsoft JhengHei", sans-serif;
+  color-scheme: dark;
+}
+html { background: var(--navy); }
+body {
+  background:
+    radial-gradient(60vmax 50vmax at 88% -6%, rgba(231,198,128,.20), transparent 60%),
+    linear-gradient(160deg, #132133 0%, #0e1826 45%, #0b131f 100%) fixed;
+  background-color: var(--navy);
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 34rem; margin: 0 auto; padding-inline: 20px; padding-block: 44px 64px; display: flex; flex-direction: column; gap: 48px; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 700; text-wrap: balance; margin: 0; letter-spacing: .02em; }
+p { margin: 0; }
+section { display: flex; flex-direction: column; gap: 18px; }
+.eyebrow { font-size: 13px; letter-spacing: .18em; color: var(--gold); font-weight: 500; }
+.muted { color: var(--mist); }
+.curve { display: block; width: 150px; height: 14px; }
+.curve path { stroke: var(--gold); fill: none; stroke-width: 2; stroke-linecap: round; }
+
+.hero h1 { font-size: clamp(40px, 12vw, 58px); font-weight: 900; line-height: 1.2; }
+.hero h1 span { display: block; color: var(--gold); }
+.hero .sub { font-family: var(--serif); font-size: 19px; line-height: 1.7; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px; font-size: 14px; }
+.facts span { border: 1px solid var(--gold-dim); border-radius: 999px; padding: 4px 14px; }
+
+.btn {
+  appearance: none; border: 0; cursor: pointer; font: inherit; font-weight: 700; font-size: 17px; letter-spacing: .06em;
+  padding: 15px 28px; border-radius: 14px; background: var(--gold); color: var(--navy);
+  text-align: center; text-decoration: none; display: block; transition: transform .15s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn.ghost { background: transparent; color: var(--gold); border: 1px solid var(--gold-dim); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+h2 { font-size: clamp(24px, 6.6vw, 30px); line-height: 1.45; }
+
+/* checklist */
+.checks { display: flex; flex-direction: column; gap: 10px; }
+.check {
+  display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: start; width: 100%;
+  text-align: left; font: inherit; color: var(--cream); cursor: pointer;
+  background: rgba(19, 33, 51, .72); border: 1px solid var(--gold-dim); border-radius: 14px; padding: 13px 16px;
+  transition: border-color .15s ease, background .15s ease;
+}
+.check:hover { border-color: var(--gold); }
+.check i { width: 22px; height: 22px; margin-top: 3px; border: 1.5px solid var(--gold); border-radius: 6px; display: grid; place-items: center; font-style: normal; font-size: 14px; color: transparent; }
+.check span { min-width: 0; line-height: 1.65; }
+.check[aria-pressed="true"] { border-color: var(--gold); background: rgba(231, 198, 128, .12); }
+.check[aria-pressed="true"] i { background: var(--gold); color: var(--navy); }
+.tally { font-family: var(--serif); font-size: 18px; color: var(--gold); min-height: 1.8em; }
+
+.chat { display: flex; flex-direction: column; gap: 10px; }
+.row { display: flex; gap: 10px; align-items: flex-start; max-width: 88%; }
+.row p { min-width: 0; padding: 11px 16px; border-radius: 16px; line-height: 1.65; }
+.row .who { flex: none; width: 30px; height: 30px; margin-top: 6px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 700; }
+.row.you .who { background: rgba(150, 163, 182, .22); color: var(--mist); }
+.row.you p { background: rgba(150, 163, 182, .14); color: var(--cream); border-top-left-radius: 4px; }
+.row.me { align-self: flex-end; flex-direction: row-reverse; }
+.row.me .who { background: var(--gold); color: var(--navy); }
+.row.me p { background: rgba(231, 198, 128, .14); border: 1px solid var(--gold-dim); color: var(--cream); border-top-right-radius: 4px; font-family: var(--serif); }
+.panel { background: var(--surface); border: 1px solid var(--gold-dim); border-radius: 18px; padding: 24px 22px; display: flex; flex-direction: column; gap: 18px; }
+.takeaway { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: baseline; }
+.takeaway b { font-family: var(--serif); color: var(--gold); font-size: 22px; line-height: 1; }
+.takeaway div { min-width: 0; }
+.takeaway h3 { font-size: 18px; }
+.stages { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 6px; }
+.stages div { text-align: center; padding: 6px 0; border: 1px solid var(--gold-dim); border-radius: 8px; font-family: var(--serif); font-size: 18px; }
+.stages div:last-child { border-style: dashed; color: var(--gold); }
+
+.quote { font-family: var(--serif); font-size: 21px; line-height: 1.7; border-left: 2px solid var(--gold); padding-left: 18px; }
+.quote strong { color: var(--gold); font-weight: 700; }
+
+.not { display: flex; flex-direction: column; gap: 8px; padding: 0; margin: 0; list-style: none; }
+.not li { padding-left: 1.4em; position: relative; }
+.not li::before { content: "·"; position: absolute; left: .3em; color: var(--gold); font-weight: 700; }
+
+.cta { text-align: center; align-items: stretch; }
+.cta h2 { font-size: 26px; }
+.sign { text-align: center; font-size: 14px; }
+.sign a { color: var(--gold); text-decoration: none; }
+.disclaimer { font-size: 12px; color: var(--mist); text-align: center; line-height: 1.7; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+.join-note { margin-bottom: 16px; }
+.fields { display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; }
+.fields input { width: 100%; font: inherit; font-size: 16px; color: var(--cream); background: rgba(11, 19, 31, .7); border: 1px solid var(--gold-dim); border-radius: 12px; padding: 14px 16px; }
+.fields input::placeholder { color: var(--mist); }
+.fields input:focus { outline: 2px solid var(--gold); outline-offset: 1px; border-color: var(--gold); }
+.ml-error input { border-color: #E59A8C !important; }
+.ml-form-embedSubmit .btn { width: 100%; }
+.success-title { font-family: var(--serif); font-size: 22px; color: var(--gold); margin-bottom: 6px; }
+@media (prefers-reduced-motion: reduce) { .btn, .check { transition: none; } }
+</style>
+</head>
+<body>
+
+
+<main class="wrap">
+
+  <section class="hero">
+    <p class="eyebrow">免費線上講座 · 等待名單</p>
+    <h1>敢不要，<span>才敢要</span></h1>
+    <svg class="curve" viewBox="0 0 150 14" aria-hidden="true"><path d="M2 10 C 44 2, 96 2, 148 9"/></svg>
+    <p class="sub">給一直累過頭、<br>習慣先顧好所有人的你。</p>
+    <div class="facts"><span>免費</span><span>線上</span><span>約 60 分鐘</span><span>不用學新方法</span><span>沒有功課</span></div>
+    <a class="btn cta-link" href="#join">進入講座等待名單</a>
+    <p class="muted" style="font-size:14px">講座開始前，你會第一個收到通知。名額有限，我希望你可以不用跟我一樣，走得這麼累！</p>
+  </section>
+
+  <section aria-labelledby="h-talk">
+    <p class="eyebrow">你心裡的聲音，我都聽過</p>
+    <h2 id="h-talk">這些話，你是不是也跟自己說過</h2>
+    <div class="chat">
+      <div class="row you"><span class="who">你</span><p>再撐一下就好。</p></div>
+      <div class="row me"><span class="who">我</span><p>我也說過好多次。後來才發現，「一下」撐了好幾年。</p></div>
+      <div class="row you"><span class="who">你</span><p>等這陣子忙完，我就好好休息。</p></div>
+      <div class="row me"><span class="who">我</span><p>可是下一陣子，永遠會再來。</p></div>
+      <div class="row you"><span class="who">你</span><p>大家都需要我，我不能倒。</p></div>
+      <div class="row me"><span class="who">我</span><p>你被需要很久了。有沒有人問過你，你需要什麼？</p></div>
+      <div class="row you"><span class="who">你</span><p>我不是不累，我只是不知道怎麼停。</p></div>
+      <div class="row me"><span class="who">我</span><p>不是你不會停。是你的身體一直在待命，從來沒有人跟它說：現在可以了。</p></div>
+      <div class="row you"><span class="who">你</span><p>我上了好多課、做了好多療癒，為什麼還是一樣？</p></div>
+      <div class="row me"><span class="who">我</span><p>我也繞過好多圈，累到覺得療癒是騙人的。後來才懂，頭腦說放下了，身體還背著。</p></div>
+      <div class="row you"><span class="who">你</span><p>我好像，很久沒問自己想要什麼了。</p></div>
+      <div class="row me"><span class="who">我</span><p>那這場講座，就從這裡開始。</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-you">
+    <p class="eyebrow">你是不是也這樣</p>
+    <h2 id="h-you">點一點，中了幾條？</h2>
+    <div class="checks" id="checks"></div>
+    <p class="tally" id="tally" aria-live="polite"></p>
+  </section>
+
+  <section aria-labelledby="h-why">
+    <p class="eyebrow">為什麼你會這麼累</p>
+    <h2 id="h-why">你缺的，可能不是休息</h2>
+    <p>你也許試過睡飽一點、放個假、上一堂課。當下有好一點，回到生活，又是同一個循環。</p>
+    <p class="quote">你撐，是因為以為愛要用守住來換。<br>可是愛跟歸屬，從來不在你苦等守住的那個地方。<br><strong>它在你自己身上。</strong></p>
+    <p>你的撐也是愛，我不是要你不撐。這場講座想陪你看清楚：你一直在守的是什麼，又有哪些戲碼，其實可以不用再演了。</p>
+    <p>那你缺的到底是什麼？為什麼你明明很努力，卻還是那麼累？這就是這場講座要陪你找的答案。</p>
+  </section>
+
+  <section aria-labelledby="h-take">
+    <p class="eyebrow">你會帶走的</p>
+    <h2 id="h-take">三樣東西</h2>
+    <div class="panel">
+      <div class="takeaway"><b>1</b><div>
+        <h3>一張放下的地圖</h3>
+        <p>從苦撐到放下，有五個階段。多數人在前面幾個之間繞很多圈，還以為自己已經放下了。你會看清自己現在在哪一站。</p>
+        <div class="stages" aria-label="從苦撐到放下的五個階段"><div>等</div><div>撞</div><div>忍</div><div>灰</div><div>放</div></div>
+      </div></div>
+      <div class="takeaway"><b>2</b><div>
+        <h3>用身體分辨的方法</h3>
+        <p>同樣一句「算了」，有人是放下了，有人只是在忍，有人是認命了。頭腦分不出來，身體分得出來。</p>
+      </div></div>
+      <div class="takeaway"><b>3</b><div>
+        <h3>一句你不想再演的戲碼</h3>
+        <p>講座最後，你會寫下一句話：「我不想再演的戲碼是＿＿＿。我想要的是＿＿＿。」</p>
+      </div></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-me">
+    <p class="eyebrow">誰來講</p>
+    <h2 id="h-me">我也繞過很多圈</h2>
+    <p>我是一個療癒師，可是有一段時間，我累到覺得療癒是騙人的。上了很多課、做了很多練習，現實還是一樣。</p>
+    <p>後來我回到身體，也終於對那些一直重播的戲碼說：<strong style="color:var(--gold)">我都不要了。</strong>那一刻，我第一次覺得好輕鬆，像放下了一個背了很久的重擔。</p>
+    <p>這場講座，是我想對以前那個自己說的話。</p>
+  </section>
+
+  <section aria-labelledby="h-not">
+    <p class="eyebrow">先說清楚</p>
+    <h2 id="h-not">這場講座不會</h2>
+    <ul class="not">
+      <li>要你學一套新的方法</li>
+      <li>要你再學一套新的覺察模式</li>
+      <li>告訴你哪一種療癒才是對的</li>
+    </ul>
+  </section>
+
+  <section class="panel cta" id="join" aria-labelledby="h-join">
+    <h2 id="h-join">講座開始前，第一個通知你</h2>
+    <div id="mlb2-46671022" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-46671022">
+      <div class="ml-form-embedWrapper embedForm">
+        <div class="ml-form-embedBody row-form">
+          <p class="join-note">留下你的名字和 Email，講座時間和連結會直接寄給你。</p>
+          <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/2680858/forms/200292776250705156/subscribe" data-code="" method="post" target="_blank">
+            <div class="ml-form-formContent fields">
+              <div class="ml-form-fieldRow"><div class="ml-field-group ml-field-name">
+                <label class="sr-only" for="ml-name">名字</label>
+                <input id="ml-name" aria-label="name" type="text" class="form-control" name="fields[name]" placeholder="你的名字" autocomplete="given-name">
+              </div></div>
+              <div class="ml-form-fieldRow ml-last-item"><div class="ml-field-group ml-field-email ml-validate-email ml-validate-required">
+                <label class="sr-only" for="ml-email">Email</label>
+                <input id="ml-email" aria-label="email" aria-required="true" type="email" class="form-control" name="fields[email]" placeholder="你的 Email" autocomplete="email" required>
+              </div></div>
+            </div>
+            <input type="hidden" name="ml-submit" value="1">
+            <div class="ml-form-embedSubmit">
+              <button type="submit" class="primary btn">進入講座等待名單</button>
+              <button disabled="disabled" style="display: none;" type="button" class="loading btn">送出中…</button>
+            </div>
+            <input type="hidden" name="anticsrf" value="true">
+          </form>
+        </div>
+        <div class="ml-form-successBody row-success" style="display: none">
+          <p class="success-title">你已經在等待名單上了</p>
+          <p>講座日期確定後，會第一個寄給你。這段時間，記得先留一點力氣給自己。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <p class="sign">人類升頻療癒系統 · <a href="https://www.instagram.com/trista_and_creator/" target="_blank" rel="noopener">@trista_and_creator</a></p>
+  <p class="disclaimer">本講座分享個人經驗與自我探索方法，不能取代任何醫療或心理專業協助。</p>
+</main>
+
+<script>
+(function () {
+  // 等待名單表單連結（Google 表單或 Tally）。還沒填之前，按鈕顯示「準備中」，不導到別的地方。
+  var ITEMS = [
+    "週末睡了一整天，醒來還是累",
+    "別人問你好不好，你總是說「還好」",
+    "大家有事都先找你，你卻想不起上一次有人問你需要什麼",
+    "想拒絕的時候，話到嘴邊又吞回去",
+    "一停下來，就覺得自己在偷懶",
+    "替別人想得很周到，輪到自己，卻說不出想要什麼",
+    "上了很多課、做了很多療癒，回到生活又是同一個循環",
+    "終於有空了，卻不知道自己想做什麼"
+  ];
+  var box = document.getElementById("checks");
+  var tally = document.getElementById("tally");
+  var picked = 0;
+  ITEMS.forEach(function (text, i) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "check"; b.id = "c" + i;
+    b.setAttribute("aria-pressed", "false");
+    b.innerHTML = "<i aria-hidden=\"true\">✓</i><span></span>";
+    b.querySelector("span").textContent = text;
+    b.addEventListener("click", function () {
+      var on = b.getAttribute("aria-pressed") !== "true";
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+      picked += on ? 1 : -1;
+      tally.textContent = picked === 0 ? "" :
+        picked === 1 ? "中了 1 條。可能只是最近比較累，今天記得對自己好一點。" :
+        picked <= 3 ? "中了 " + picked + " 條。你在撐，只是還撐得住，所以沒有人發現，包括你自己。" :
+        picked <= 5 ? "中了 " + picked + " 條。你已經撐很久了。不是你不夠好，是你一直把自己排在最後。" :
+        picked <= 7 ? "中了 " + picked + " 條。你把自己交出去太多了。這場講座，就是為你準備的。" :
+        "8 條全中。我懂，因為我也全中過。你不用再一個人撐了，我們一起來看看。";
+    });
+    box.appendChild(b);
+  });
+})();
+</script>
+
+<script>
+  function ml_webform_success_46671022() {
+    var $ = ml_jQuery || jQuery;
+    $('.ml-subscribe-form-46671022 .row-success').show();
+    $('.ml-subscribe-form-46671022 .row-form').hide();
+  }
+</script>
+<script src="https://groot.mailerlite.com/js/w/webforms.min.js?v83147fa8ce2d95cb73ece7f28b469519" type="text/javascript"></script>
+<script>fetch("https://assets.mailerlite.com/jsonp/2680858/forms/200292776250705156/takel")</script>
+</body>
+</html>
