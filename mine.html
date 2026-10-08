@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>拿回自己測驗</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: one narrow column like a letter held at night; navy ground with a gold glow top-right (人類升頻療癒系統 house style). Single deliberate dark look. */
+:root {
+  --navy: #0B131F;
+  --navy-2: #132133;
+  --surface: #16243A;
+  --gold: #E7C680;
+  --gold-dim: rgba(231, 198, 128, .28);
+  --cream: #EFE7D6;
+  --mist: #96A3B6;
+  --serif: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  --sans: "Noto Sans TC", "PingFang TC", "Heiti TC", "Microsoft JhengHei", sans-serif;
+  color-scheme: dark;
+}
+html { background: var(--navy); }
+body {
+  background:
+    radial-gradient(60vmax 50vmax at 88% -6%, rgba(231,198,128,.20), transparent 60%),
+    linear-gradient(160deg, #132133 0%, #0e1826 45%, #0b131f 100%) fixed;
+  background-color: var(--navy);
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.75;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 34rem; margin: 0 auto; padding-inline: 20px; padding-block: 40px 56px; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 700; text-wrap: balance; margin: 0; letter-spacing: .02em; }
+p { margin: 0; }
+.eyebrow { font-size: 13px; letter-spacing: .18em; color: var(--gold); font-weight: 500; }
+.muted { color: var(--mist); }
+.stack { display: flex; flex-direction: column; gap: 20px; }
+
+.curve { display: block; width: 140px; height: 14px; margin-top: 10px; }
+.curve path { stroke: var(--gold); fill: none; stroke-width: 2; stroke-linecap: round; }
+
+/* intro */
+.intro h1 { font-size: clamp(30px, 8vw, 40px); line-height: 1.35; }
+.intro h1 em { font-style: normal; color: var(--gold); }
+.meta { display: flex; gap: 10px; flex-wrap: wrap; font-size: 14px; }
+.meta span { border: 1px solid var(--gold-dim); border-radius: 999px; padding: 4px 14px; color: var(--cream); }
+.note { border-left: 2px solid var(--gold); padding: 4px 0 4px 16px; color: var(--cream); font-size: 15px; }
+
+.btn {
+  appearance: none; border: 0; cursor: pointer; font: inherit; font-weight: 700;
+  font-size: 17px; letter-spacing: .06em; padding: 15px 28px; border-radius: 14px;
+  background: var(--gold); color: var(--navy); text-align: center; text-decoration: none; display: block;
+  transition: transform .15s ease, opacity .15s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:disabled { opacity: .35; cursor: default; transform: none; }
+.btn.ghost { background: transparent; color: var(--gold); border: 1px solid var(--gold-dim); }
+.link { background: none; border: 0; color: var(--mist); font: inherit; font-size: 14px; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+/* quiz */
+.progress { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; color: var(--mist); letter-spacing: .1em; }
+.bar { height: 2px; background: var(--gold-dim); border-radius: 2px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--gold); transition: width .3s ease; }
+.q h2 { font-size: clamp(24px, 6.4vw, 30px); line-height: 1.45; }
+.options { display: flex; flex-direction: column; gap: 12px; }
+.opt {
+  display: grid; grid-template-columns: 2.2rem 1fr; gap: 12px; align-items: center;
+  width: 100%; text-align: left; cursor: pointer; font: inherit; color: var(--cream);
+  background: rgba(19, 33, 51, .72); border: 1px solid var(--gold-dim); border-radius: 14px; padding: 14px 16px;
+  transition: border-color .15s ease, background .15s ease;
+}
+.opt:hover { border-color: var(--gold); }
+.opt b { font-family: var(--serif); color: var(--gold); font-size: 18px; text-align: center; }
+.opt span { min-width: 0; font-size: 16px; line-height: 1.6; }
+.opt[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--navy); }
+.opt[aria-pressed="true"] b { color: var(--navy); }
+.nav { display: flex; flex-direction: column; gap: 14px; align-items: center; }
+.nav .btn { width: 100%; }
+
+/* result */
+.result-head h1 { font-size: clamp(28px, 7.6vw, 36px); line-height: 1.4; }
+.quote { font-family: var(--serif); font-size: 20px; line-height: 1.6; color: var(--gold); }
+.panel { background: rgba(22, 36, 58, .82); border: 1px solid var(--gold-dim); border-radius: 18px; padding: 24px 22px; display: flex; flex-direction: column; gap: 22px; }
+.sec { display: flex; flex-direction: column; gap: 6px; }
+.sec h3 { font-family: var(--sans); font-size: 14px; font-weight: 700; color: var(--gold); letter-spacing: .12em; }
+.sec p { font-size: 16px; }
+.sec .lead { font-family: var(--serif); font-size: 19px; line-height: 1.6; }
+
+.stages { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.stage { text-align: center; padding: 10px 0 8px; border-radius: 10px; border: 1px solid var(--gold-dim); color: var(--mist); }
+.stage strong { display: block; font-family: var(--serif); font-size: 22px; line-height: 1.3; }
+.stage small { font-size: 11px; letter-spacing: .08em; }
+.stage.here { background: var(--gold); border-color: var(--gold); color: var(--navy); }
+.stage.end { border-style: dashed; color: var(--cream); }
+
+.offer { display: flex; flex-direction: column; gap: 12px; }
+.offer .title { font-family: var(--serif); font-size: 20px; }
+.bridge { border-left: 2px solid var(--gold); padding: 2px 0 2px 16px; display: flex; flex-direction: column; gap: 4px; font-family: var(--serif); font-size: 17px; line-height: 1.7; }
+.bridge-pick { color: var(--gold); }
+.card { background: rgba(11, 19, 31, .55); border: 1px solid var(--gold-dim); border-radius: 16px; padding: 20px 18px; display: flex; flex-direction: column; gap: 12px; }
+.card .title { font-family: var(--serif); font-size: 22px; color: var(--gold); }
+.lines { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.lines li { padding-left: 1.3em; position: relative; }
+.lines li::before { content: "·"; position: absolute; left: .3em; color: var(--gold); font-weight: 700; }
+.small { font-size: 13px; text-align: center; }
+.unlock { border: 1.5px dashed var(--gold-dim); border-radius: 14px; padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
+.unlock-link { color: var(--gold); font-weight: 700; text-decoration: none; margin-top: 4px; }
+.care { font-size: 15px; color: var(--cream); border-top: 1px solid var(--gold-dim); padding-top: 16px; }
+
+details.other { border: 1px solid var(--gold-dim); border-radius: 14px; padding: 4px 18px; background: rgba(19, 33, 51, .5); }
+details.other summary { cursor: pointer; padding: 12px 0; font-weight: 500; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+details.other summary::after { content: "＋"; color: var(--gold); }
+details.other[open] summary::after { content: "－"; }
+details.other p { padding-bottom: 14px; color: var(--cream); font-size: 15px; }
+
+.sign { text-align: center; font-size: 14px; }
+.sign a { color: var(--gold); text-decoration: none; }
+.disclaimer { font-size: 12px; color: var(--mist); text-align: center; line-height: 1.7; }
+
+.fade { animation: in .35s ease both; }
+@keyframes in { from { opacity: .4; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .fade { animation: none; } .bar i, .btn, .opt { transition: none; } }
+</style>
+</head>
+<body>
+
+<main class="wrap">
+
+  <!-- 開場 -->
+  <section id="intro" class="stack intro fade">
+    <p class="eyebrow">拿回自己 · 心理測驗</p>
+    <div>
+      <h1>你最先交出去的<br>是<em>哪一塊自己</em></h1>
+      <svg class="curve" viewBox="0 0 140 14" aria-hidden="true"><path d="M2 10 C 40 2, 90 2, 138 9"/></svg>
+    </div>
+    <div class="meta"><span>三題</span><span>大約三十秒</span><span>不用留任何資料</span></div>
+    <p class="note">一個人站在自己的位置上，靠的是四件事：相信自己的感覺、知道自己想要什麼、自己做決定、搞砸了也站在自己這邊。這份測驗，陪你看看你最先交出去的是哪一塊。第一題，就是你在貼文上看到的那一題。</p>
+    <button class="btn" id="start" type="button">開始測驗</button>
+    <p class="disclaimer">本測驗為自我探索用途，不代表任何醫療或心理診斷</p>
+  </section>
+
+  <!-- 題目 -->
+  <section id="quiz" class="stack q" hidden>
+    <div class="stack" style="gap:10px">
+      <div class="progress"><span>拿回自己 · 測驗</span><span id="count">1 / 3</span></div>
+      <div class="bar"><i id="barfill" style="width:33%"></i></div>
+    </div>
+    <p class="eyebrow" id="qlabel">QUESTION 01</p>
+    <h2 id="qtext"></h2>
+    <p class="muted" id="qhint"></p>
+    <div class="options" id="options" role="group" aria-labelledby="qtext"></div>
+    <div class="nav">
+      <button class="btn" id="next" type="button" disabled>下一題</button>
+      <button class="link" id="back" type="button">回上一題</button>
+    </div>
+  </section>
+
+  <!-- 結果 -->
+  <section id="result" class="stack" hidden>
+    <div class="stack result-head" style="gap:10px">
+      <p class="eyebrow">你的結果</p>
+      <p class="muted">你現在比較像</p>
+      <h1 id="rtitle"></h1>
+      <svg class="curve" viewBox="0 0 140 14" aria-hidden="true"><path d="M2 10 C 40 2, 90 2, 138 9"/></svg>
+    </div>
+
+    <div class="stages" id="stages" style="grid-template-columns:repeat(4,1fr)" aria-label="站在自己位置上的四塊"></div>
+    <p class="muted" style="font-size:14px">站在自己的位置上，有四塊：我感受、我想要、我決定、我挺我。多數人不是全部交出去，而是先從其中一塊開始讓。亮起來的，是你最先讓出去的那一塊。</p>
+
+    <div class="panel">
+      <div class="sec"><h3>你為什麼會先讓出這一塊</h3><p id="rwhy"></p></div>
+      <div class="sec"><h3>它在關係裡的樣子</h3><p id="rrel"></p></div>
+      <div class="sec"><h3>它在錢上的樣子 <span class="muted" style="font-weight:400;letter-spacing:0">依你第二題的答案</span></h3><p class="quote" id="rmoneyq"></p><p id="rmoney"></p></div>
+      <div class="sec"><h3>你以為的，和其實的</h3><p id="rthink"></p></div>
+      <div class="sec"><h3>你其實需要聽到的</h3><p class="lead" id="rhear"></p></div>
+      <div class="sec"><h3>這週可以拿回來的一小步 <span class="muted" style="font-weight:400;letter-spacing:0">依你第三題的答案</span></h3><p id="raction"></p></div>
+    </div>
+
+    <div class="panel offer">
+      <p class="eyebrow">想拆得更深</p>
+      <div class="bridge">
+        <p class="bridge-pick" id="rpick"></p>
+        <p>這份測驗，只照到一個角落。真正讓你一次又一次把自己交出去的，是那些你意識沒說出口、卻一直在替你做決定的習慣。</p>
+      </div>
+      <div class="card">
+        <p class="eyebrow">我開發的工具</p>
+        <p class="title">24 小時自由底氣助手</p>
+        <ul class="lines">
+          <li>陪你看見：那些沒說出口、卻一直在影響你的部分</li>
+          <li>把「事實」和「感覺」分開，不再攪在一起</li>
+          <li>每一次又想把自己交出去的時候，陪你停一下，站回自己這邊</li>
+        </ul>
+        <p class="muted" style="font-size:14px">助手在 Premium 會員裡。它會先陪你聽《談錢篇》、看懂自己和錢的關係，再為你開通。你可以先免費進社群，看看這裡是不是你要的，不急著決定。</p>
+        <a class="btn" id="cta" target="_blank" rel="noopener">先免費進來，認識自由底氣助手 →</a>
+      </div>
+    </div>
+
+    <div class="stack" style="gap:12px">
+      <h2 style="font-size:22px">另外三種，你身邊一定有人是</h2>
+      <p class="muted" style="font-size:14px">點開看看，也許你會想到某一個人</p>
+      <div class="stack" style="gap:10px" id="others"></div>
+    </div>
+
+    <div class="nav">
+      <button class="link" id="again" type="button">重新測一次</button>
+    </div>
+    <p class="sign">人類升頻療癒系統 · <a href="https://www.instagram.com/trista_and_creator/" target="_blank" rel="noopener">@trista_and_creator</a></p>
+    <p class="disclaimer">本測驗為自我探索用途，不代表任何醫療或心理診斷。<br>分享內容不能取代專業醫療或心理協助。</p>
+  </section>
+
+</main>
+
+<script>
+(function () {
+  var SKOOL = "https://www.skool.com/body-translator-academy-4690/about";
+
+  var QUESTIONS = [
+    {
+      text: "有人第一時間開口找你幫忙<br>你心裡第一個冒出來的是？",
+      hint: "不用想太久，選第一個看了會停住的",
+      options: ["我是不是太計較了", "好啊，我的事可以晚點", "拒絕的話，他會怎麼看我", "要是沒幫好，又是我的錯"]
+    },
+    {
+      text: "最近一次想花錢在自己身上<br>你心裡的聲音是？",
+      hint: "想想那個拿起來又放下的東西",
+      options: ["先存起來，比較安心", "別人比我更需要", "這樣會不會被說亂花", "我又沒做得多好，憑什麼"]
+    },
+    {
+      text: "如果這週可以先拿回一件事<br>你最想拿回？",
+      hint: "選你心裡第一個冒出來的",
+      options: ["相信自己的感覺", "敢說出我想要的", "自己做決定的底氣", "搞砸了，也站在自己這邊"]
+    }
+  ];
+
+  // 第一題決定類型：A 感受、B 想要、C 決定、D 挺我
+  var TYPES = [
+    {
+      key: 0,
+      title: "一個不太相信自己感覺的人",
+      short: "明明不舒服，第一個念頭卻是「是我想太多吧」。",
+      why: "也許很早以前，你的不舒服常常被說成「想太多」「太敏感」。久了，你學會先懷疑自己，再相信別人的版本。別人怎麼說，好像都比你的感覺準。",
+      rel: "對方說了讓你不舒服的話，你先替他找理由，再回頭檢討自己。那股怪怪的感覺沒有消失，只是被你收起來了。",
+      think: "你以為是自己太計較。其實那個「怪怪的」，是你身體最早發出來的提醒。",
+      hear: "你的感覺是真的，不需要別人同意。"
+    },
+    {
+      key: 1,
+      title: "一個把自己的需要排在最後的人",
+      short: "別人一開口就先答應，自己的事永遠「晚點再說」。",
+      why: "也許很早以前，你就習慣先顧好每個人，好像這樣才有自己的位置。你的需要不是被拒絕，而是根本沒有空間出現。久了，連自己想要什麼都感覺不太到。",
+      rel: "你總是第一個答應，最後一個想到自己。等你終於有空了，才發現累得什麼都不想要。",
+      think: "你以為先顧好別人，關係就會穩。其實一直缺席的你，也讓關係少了一半。",
+      hear: "你想要東西，不是自私。你本來就在這段關係裡。"
+    },
+    {
+      key: 2,
+      title: "一個把決定權交給別人眼光的人",
+      short: "做決定前，先想的是「他會怎麼看我」。",
+      why: "當自己的感覺和需要都不太被信任，做決定時，就只能看別人。會不會不高興？會不會被說自私？決定權，就這樣一點一點交了出去。",
+      rel: "想拒絕的時候，你先想像對方失望的臉，然後說「好」。你沒有選擇對方，你是在躲開罪惡感。",
+      think: "你以為照顧別人的感受，就是為關係好。其實一段只有一個人能做決定的關係，不會是健康的。",
+      hear: "你可以先問自己的意見，再參考別人的。"
+    },
+    {
+      key: 3,
+      title: "一個一搞砸，就收回對自己支持的人",
+      short: "事情一出錯，第一個罵你的人，是你自己。",
+      why: "也許很早以前，你學到的是：做得好才被支持，犯了錯就不配。所以你也這樣對待自己。只要一失敗，你就先把自己丟下。",
+      rel: "關係裡一有狀況，你先把錯攬到自己身上。別人的責任，你也一起扛，好像只要你夠努力，就不會再出錯。",
+      think: "你以為對自己狠一點，才會進步。其實檢討和責怪是兩件事：檢討讓你下次更好，責怪只會讓你更不敢做自己。",
+      hear: "搞砸的時候，你更需要站在自己這邊。"
+    }
+  ];
+
+  // 第二題：錢上的樣子
+  var MONEY = [
+    "存錢沒有錯。但如果每一筆花在自己身上的錢都要先過一關，你其實在對自己說：錢隨時會沒有，我的需要可以等。安全感，變成了一直很警覺。",
+    "你習慣把錢和資源先給出去。好像給得夠多，才保得住在別人心裡的位置。可是你也是那個需要被照顧的人。",
+    "連花自己的錢，都在看別人的眼光。決定權不在你手上，在你想像中那些會說話的人手上。",
+    "你的價值，好像要先證明，才配拿到。所以報價不敢開、加薪不敢談、花在自己身上就有罪惡感。"
+  ];
+
+  // 第三題：這週一小步
+  var ACTIONS = [
+    "這週每天睡前，問自己一次：「我今天哪一刻覺得怪怪的？」寫下來就好，不用解釋，也不用說服自己。",
+    "這週找一件小事，先說出你想要的：想吃的那家、想看的那部。說完就好，不用解釋為什麼。",
+    "這週有人開口時，先回一句：「我想一下再回你。」給自己十分鐘，問問自己的意見。",
+    "這週出錯一次的時候，對自己說一句：「我還在，我挺我。」然後只寫下次怎麼做，不寫自己有多糟。"
+  ];
+
+  var PIECES = [["感受", "我感受"], ["想要", "我想要"], ["決定", "我決定"], ["挺我", "我挺我"]];
+
+  var answers = [null, null, null];
+  var step = 0;
+  var $ = function (id) { return document.getElementById(id); };
+
+  function show(id) {
+    ["intro", "quiz", "result"].forEach(function (s) { $(s).hidden = s !== id; });
+    var el = $(id);
+    el.classList.remove("fade"); void el.offsetWidth; el.classList.add("fade");
+    window.scrollTo(0, 0);
+  }
+
+  function renderQuestion() {
+    var q = QUESTIONS[step];
+    $("count").textContent = (step + 1) + " / 3";
+    $("barfill").style.width = ((step + 1) / 3 * 100) + "%";
+    $("qlabel").textContent = "QUESTION 0" + (step + 1);
+    $("qtext").innerHTML = q.text;
+    $("qhint").textContent = q.hint;
+    var box = $("options");
+    box.innerHTML = "";
+    q.options.forEach(function (label, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "opt";
+      b.setAttribute("aria-pressed", answers[step] === i ? "true" : "false");
+      b.innerHTML = "<b>" + "ABCD"[i] + "</b><span></span>";
+      b.querySelector("span").textContent = label;
+      b.addEventListener("click", function () {
+        answers[step] = i;
+        Array.prototype.forEach.call(box.children, function (c, j) { c.setAttribute("aria-pressed", j === i ? "true" : "false"); });
+        $("next").disabled = false;
+      });
+      box.appendChild(b);
+    });
+    $("next").disabled = answers[step] === null;
+    $("next").textContent = step === 2 ? "看我的結果" : "下一題";
+    $("back").textContent = step === 0 ? "回到開頭" : "回上一題";
+  }
+
+  function renderResult() {
+    var t = TYPES[answers[0]];
+    $("rtitle").textContent = t.title;
+    $("rwhy").textContent = t.why;
+    $("rrel").textContent = t.rel;
+    $("rmoneyq").textContent = "「" + QUESTIONS[1].options[answers[1]] + "」";
+    $("rmoney").textContent = MONEY[answers[1]];
+    $("rthink").textContent = t.think;
+    $("rhear").textContent = t.hear;
+    $("raction").textContent = ACTIONS[answers[2]];
+    $("rpick").textContent = "你剛剛選的是「" + QUESTIONS[0].options[answers[0]] + "」";
+    $("cta").href = SKOOL;
+
+    $("stages").innerHTML = PIECES.map(function (s, i) {
+      return '<div class="stage' + (i === t.key ? " here" : "") + '"><strong>' + s[0] + "</strong><small>" + s[1] + "</small></div>";
+    }).join("");
+
+    var others = $("others");
+    others.innerHTML = "";
+    TYPES.forEach(function (x, i) {
+      if (i === answers[0]) return;
+      var d = document.createElement("details"); d.className = "other";
+      var s = document.createElement("summary"); s.textContent = x.title.replace(/^一個/, "");
+      var p = document.createElement("p"); p.textContent = x.short + " " + x.hear;
+      d.append(s, p);
+      others.appendChild(d);
+    });
+  }
+
+  $("start").addEventListener("click", function () { step = 0; renderQuestion(); show("quiz"); });
+  $("next").addEventListener("click", function () {
+    if (answers[step] === null) return;
+    if (step < 2) { step++; renderQuestion(); window.scrollTo(0, 0); }
+    else { renderResult(); show("result"); }
+  });
+  $("back").addEventListener("click", function () {
+    if (step === 0) { show("intro"); return; }
+    step--; renderQuestion(); window.scrollTo(0, 0);
+  });
+  $("again").addEventListener("click", function () { answers = [null, null, null]; step = 0; show("intro"); });
+})();
+</script>
+
+</body>
+</html>
