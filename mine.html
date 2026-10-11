@@ -124,6 +124,16 @@ details.other p { padding-bottom: 14px; color: var(--cream); font-size: 15px; }
 .sign a { color: var(--gold); text-decoration: none; }
 .disclaimer { font-size: 12px; color: var(--mist); text-align: center; line-height: 1.7; }
 
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+.join-note { margin-bottom: 14px; font-size: 15px; }
+.fields { display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; }
+.fields input { width: 100%; font: inherit; font-size: 16px; color: var(--cream); background: rgba(11, 19, 31, .7); border: 1px solid var(--gold-dim); border-radius: 12px; padding: 14px 16px; }
+.fields input::placeholder { color: var(--mist); }
+.fields input:focus { outline: 2px solid var(--gold); outline-offset: 1px; border-color: var(--gold); }
+.ml-error input { border-color: #E59A8C !important; }
+.ml-form-embedSubmit .btn { width: 100%; }
+.success-title { font-family: var(--serif); font-size: 22px; color: var(--gold); margin-bottom: 6px; }
+
 .fade { animation: in .35s ease both; }
 @keyframes in { from { opacity: .4; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .fade { animation: none; } .bar i, .btn, .opt { transition: none; } }
@@ -183,22 +193,49 @@ details.other p { padding-bottom: 14px; color: var(--cream); font-size: 15px; }
       <div class="sec"><h3>這週可以拿回來的一小步 <span class="muted" style="font-weight:400;letter-spacing:0">依你第三題的答案</span></h3><p id="raction"></p></div>
     </div>
 
-    <div class="panel offer">
-      <p class="eyebrow">想拆得更深</p>
+    <div class="panel offer" id="join">
+      <p class="eyebrow">免費線上講座</p>
       <div class="bridge">
         <p class="bridge-pick" id="rpick"></p>
-        <p>這份測驗，只照到一個角落。真正讓你一次又一次把自己交出去的，是那些你意識沒說出口、卻一直在替你做決定的習慣。</p>
+        <p>這份測驗，只照到一個角落。那一塊自己，要怎麼一點一點拿回來？</p>
       </div>
       <div class="card">
-        <p class="eyebrow">我開發的工具</p>
-        <p class="title">24 小時自由底氣助手</p>
+        <p class="title">敢「不要」，才敢「要」</p>
         <ul class="lines">
-          <li>陪你看見：那些沒說出口、卻一直在影響你的部分</li>
-          <li>把「事實」和「感覺」分開，不再攪在一起</li>
-          <li>每一次又想把自己交出去的時候，陪你停一下，站回自己這邊</li>
+          <li>看清你一直在守的是什麼，哪些戲碼其實可以不用再演</li>
+          <li>用身體分辨：你是真的放下了，還是只是在忍</li>
+          <li>寫下一句：「我不想再演的戲碼是＿＿，我想要的是＿＿」</li>
         </ul>
-        <p class="muted" style="font-size:14px">助手在 Premium 會員裡。它會先陪你聽《談錢篇》、看懂自己和錢的關係，再為你開通。你可以先免費進社群，看看這裡是不是你要的，不急著決定。</p>
-        <a class="btn" id="cta" target="_blank" rel="noopener">先免費進來，認識自由底氣助手 →</a>
+        <p class="muted" style="font-size:14px">免費、線上、約 60 分鐘。不用學新方法，也沒有功課。</p>
+        <div id="mlb2-46671022" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-46671022">
+          <div class="ml-form-embedWrapper embedForm">
+            <div class="ml-form-embedBody row-form">
+              <p class="join-note">留下你的名字和 Email，講座時間和連結會直接寄給你。</p>
+              <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/2680858/forms/200292776250705156/subscribe" data-code="" method="post" target="_blank">
+                <div class="ml-form-formContent fields">
+                  <div class="ml-form-fieldRow"><div class="ml-field-group ml-field-name">
+                    <label class="sr-only" for="ml-name">名字</label>
+                    <input id="ml-name" aria-label="name" type="text" class="form-control" name="fields[name]" placeholder="你的名字" autocomplete="given-name">
+                  </div></div>
+                  <div class="ml-form-fieldRow ml-last-item"><div class="ml-field-group ml-field-email ml-validate-email ml-validate-required">
+                    <label class="sr-only" for="ml-email">Email</label>
+                    <input id="ml-email" aria-label="email" aria-required="true" type="email" class="form-control" name="fields[email]" placeholder="你的 Email" autocomplete="email" required>
+                  </div></div>
+                </div>
+                <input type="hidden" name="ml-submit" value="1">
+                <div class="ml-form-embedSubmit">
+                  <button type="submit" class="primary btn">報名免費講座</button>
+                  <button disabled="disabled" style="display: none;" type="button" class="loading btn">送出中…</button>
+                </div>
+                <input type="hidden" name="anticsrf" value="true">
+              </form>
+            </div>
+            <div class="ml-form-successBody row-success" style="display: none">
+              <p class="success-title">報名成功</p>
+              <p>講座日期確定後，會第一個寄給你。這週，記得先試試你結果裡的那一小步。</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -219,8 +256,6 @@ details.other p { padding-bottom: 14px; color: var(--cream); font-size: 15px; }
 
 <script>
 (function () {
-  var SKOOL = "https://www.skool.com/body-translator-academy-4690/about";
-
   var QUESTIONS = [
     {
       text: "有人第一時間開口找你幫忙<br>你心裡第一個冒出來的是？",
@@ -347,7 +382,6 @@ details.other p { padding-bottom: 14px; color: var(--cream); font-size: 15px; }
     $("rhear").textContent = t.hear;
     $("raction").textContent = ACTIONS[answers[2]];
     $("rpick").textContent = "你剛剛選的是「" + QUESTIONS[0].options[answers[0]] + "」";
-    $("cta").href = SKOOL;
 
     $("stages").innerHTML = PIECES.map(function (s, i) {
       return '<div class="stage' + (i === t.key ? " here" : "") + '"><strong>' + s[0] + "</strong><small>" + s[1] + "</small></div>";
@@ -378,6 +412,16 @@ details.other p { padding-bottom: 14px; color: var(--cream); font-size: 15px; }
   $("again").addEventListener("click", function () { answers = [null, null, null]; step = 0; show("intro"); });
 })();
 </script>
+
+<script>
+  function ml_webform_success_46671022() {
+    var $ = ml_jQuery || jQuery;
+    $('.ml-subscribe-form-46671022 .row-success').show();
+    $('.ml-subscribe-form-46671022 .row-form').hide();
+  }
+</script>
+<script src="https://groot.mailerlite.com/js/w/webforms.min.js?v83147fa8ce2d95cb73ece7f28b469519" type="text/javascript"></script>
+<script>fetch("https://assets.mailerlite.com/jsonp/2680858/forms/200292776250705156/takel")</script>
 
 </body>
 </html>
